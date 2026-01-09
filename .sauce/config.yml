@@ -13,6 +13,11 @@ metadata:
 playwright:
   version: 1.52.0
 
+npm:
+  registry: https://registry.npmjs.org
+  # Set to true if you are using pnpm-lock.yaml or package-lock.json
+  usePackageLock: true
+
 suites:
   - name: "web-desktop"
     browserName: chromium
