@@ -6,44 +6,8 @@ on:
     branches: [ main ]
 
 jobs:
-  upload-apps:
-    name: Upload apps to Sauce Storage
-    runs-on: ubuntu-latest
-    outputs:
-      android_filename: ${{ steps.names.outputs.android_filename }}
-      ios_filename: ${{ steps.names.outputs.ios_filename }}
-    steps:
-      - uses: actions/checkout@v4
-
-      - id: names
-        run: |
-          echo "android_filename=mda-2.2.0-25.apk" >> $GITHUB_OUTPUT
-          echo "ios_filename=SauceLabs-Demo-App.ipa" >> $GITHUB_OUTPUT
-
-      - name: Upload Android app
-        run: |
-          curl -u "${SAUCE_USERNAME}:${SAUCE_ACCESS_KEY}" --location \
-            --request POST "https://api.${SAUCE_REGION}.saucelabs.com/v1/storage/upload" \
-            --form "payload=@assets/apps/android/mda-2.2.0-25.apk" \
-            --form "name=mda-2.2.0-25.apk"
-        env:
-          SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
-          SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
-          SAUCE_REGION: ${{ secrets.SAUCE_REGION }}
-
-      - name: Upload iOS app
-        run: |
-          curl -u "${SAUCE_USERNAME}:${SAUCE_ACCESS_KEY}" --location \
-            --request POST "https://api.${SAUCE_REGION}.saucelabs.com/v1/storage/upload" \
-            --form "payload=@assets/apps/ios/SauceLabs-Demo-App.ipa" \
-            --form "name=SauceLabs-Demo-App.ipa"
-        env:
-          SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
-          SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
-          SAUCE_REGION: ${{ secrets.SAUCE_REGION }}
-
   web:
-    name: Web (Playwright) - ${{ matrix.viewport }}
+    name: Web (Playwright on Sauce) - ${{ matrix.viewport }}
     runs-on: ubuntu-latest
     environment: PROXY_ENV
     strategy:
@@ -64,17 +28,45 @@ jobs:
       - name: Install deps
         run: pnpm install --frozen-lockfile
 
-      - name: Install Playwright browsers
-        run: pnpm exec playwright install --with-deps
+      - name: Validate required secrets
+        run: |
+          for v in SAUCE_USERNAME SAUCE_ACCESS_KEY SAUCE_REGION BASE_URL; do
+            if [ -z "${!v}" ]; then
+              echo "$v is empty. Add it to GitHub Environment PROXY_ENV secrets."
+              exit 1
+            fi
+          done
+        env:
+          SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
+          SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
+          SAUCE_REGION: ${{ secrets.SAUCE_REGION }}
+          BASE_URL: ${{ secrets.BASE_URL }}
 
-      - name: Run ALL features (web)
+      # ✅ Run on Sauce (web) using saucectl (requires .sauce/config.yml in repo)
+      - name: Install saucectl
+        run: |
+          curl -fsSL https://github.com/saucelabs/saucectl/releases/latest/download/saucectl_linux_amd64.tar.gz \
+            | tar -xz
+          sudo mv saucectl /usr/local/bin/saucectl
+          saucectl --version
+
+      - name: Run ALL features (web on Sauce) - suite ${{ matrix.viewport }}
         run: |
           mkdir -p logs metrics
-          LOG_FILE="logs/all-web-${{ matrix.viewport }}.jsonl" pnpm test:web:${{ matrix.viewport }}
+          export LOG_FILE="logs/all-web-${{ matrix.viewport }}.jsonl"
+          export PLATFORM=web
+          export DRIVER=playwright
+          export VIEWPORT=${{ matrix.viewport }}
+          export BASE_URL="${{ secrets.BASE_URL }}"
+          export HEADLESS=true
+          export LOG_LEVEL=info
+
+          # saucectl will pick suite by name from .sauce/config.yml
+          saucectl run --select-suite "web-${{ matrix.viewport }}"
         env:
-          BASE_URL: ${{ secrets.BASE_URL || 'https://www.saucedemo.com' }}
-          HEADLESS: "true"
-          LOG_LEVEL: "info"
+          SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
+          SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
+          SAUCE_REGION: ${{ secrets.SAUCE_REGION }}
 
       - name: Generate metrics
         if: always()
@@ -92,10 +84,10 @@ jobs:
           path: |
             logs/
             metrics/
+            .sauce/
 
   mobile:
     name: Mobile (Appium on Sauce) - ${{ matrix.platform }}
-    needs: upload-apps
     runs-on: ubuntu-latest
     environment: PROXY_ENV
     strategy:
@@ -121,25 +113,35 @@ jobs:
       - name: Install deps
         run: pnpm install --frozen-lockfile
 
-      - name: Run ALL features (mobile on Sauce)
+      - name: Validate Sauce secrets
         run: |
-          mkdir -p logs metrics
-          LOG_FILE="logs/all-${{ matrix.platform }}.jsonl" \
-          SAUCE=true \
-          SAUCE_REGION="${SAUCE_REGION}" \
-          SAUCE_BUILD="proxy-pattern-${GITHUB_RUN_NUMBER}" \
-          SAUCE_TEST_NAME="all-features-${{ matrix.platform }}" \
-          SAUCE_ANDROID_APP="storage:filename=${ANDROID_FILE}" \
-          SAUCE_IOS_APP="storage:filename=${IOS_FILE}" \
-          CAP_PROFILE="${{ matrix.cap_profile }}" \
-          pnpm test:${{ matrix.platform }}
+          for v in SAUCE_USERNAME SAUCE_ACCESS_KEY SAUCE_REGION; do
+            if [ -z "${!v}" ]; then
+              echo "$v is empty. Add it to GitHub Environment PROXY_ENV secrets."
+              exit 1
+            fi
+          done
         env:
           SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
           SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
           SAUCE_REGION: ${{ secrets.SAUCE_REGION }}
-          ANDROID_FILE: ${{ needs.upload-apps.outputs.android_filename }}
-          IOS_FILE: ${{ needs.upload-apps.outputs.ios_filename }}
 
+      - name: Run ALL features (mobile on Sauce)
+        run: |
+          mkdir -p logs metrics
+
+          LOG_FILE="logs/all-${{ matrix.platform }}.jsonl" \
+          SAUCE=true \
+          SAUCE_REGION="${{ secrets.SAUCE_REGION }}" \
+          SAUCE_USERNAME="${{ secrets.SAUCE_USERNAME }}" \
+          SAUCE_ACCESS_KEY="${{ secrets.SAUCE_ACCESS_KEY }}" \
+          SAUCE_BUILD="proxy-pattern-${GITHUB_RUN_NUMBER}" \
+          SAUCE_TEST_NAME="all-features-${{ matrix.platform }}" \
+          SAUCE_ANDROID_APP="storage:filename=mda-2.2.0-25.apk" \
+          SAUCE_IOS_APP="storage:filename=SauceLabs-Demo-App.ipa" \
+          CAP_PROFILE="${{ matrix.cap_profile }}" \
+          pnpm test:${{ matrix.platform }}
+        env:
           WDIO_CONN_RETRY_TIMEOUT: "180000"
           WDIO_CONN_RETRY_COUNT: "3"
           WDIO_LOG_LEVEL: "error"

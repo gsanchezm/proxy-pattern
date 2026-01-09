@@ -1,0 +1,44 @@
+apiVersion: v1alpha
+kind: imagerunner
+
+sauce:
+  region: ${SAUCE_REGION}
+
+defaults:
+  timeout: 30m
+  artifacts:
+    download:
+      when: always
+      match:
+        - ".*"
+
+suites:
+  - name: web-desktop
+    image: cypress/browsers:node-20.11.0-chrome-120-ff-121
+    workingDirectory: /work
+    env:
+      PLATFORM: web
+      DRIVER: playwright
+      VIEWPORT: desktop
+      BASE_URL: ${BASE_URL}
+      HEADLESS: "true"
+      LOG_LEVEL: info
+      LOG_FILE: ${LOG_FILE}
+    run:
+      - pnpm install --frozen-lockfile
+      - pnpm test:web:desktop
+
+  - name: web-responsive
+    image: cypress/browsers:node-20.11.0-chrome-120-ff-121
+    workingDirectory: /work
+    env:
+      PLATFORM: web
+      DRIVER: playwright
+      VIEWPORT: responsive
+      BASE_URL: ${BASE_URL}
+      HEADLESS: "true"
+      LOG_LEVEL: info
+      LOG_FILE: ${LOG_FILE}
+    run:
+      - pnpm install --frozen-lockfile
+      - pnpm test:web:responsive
