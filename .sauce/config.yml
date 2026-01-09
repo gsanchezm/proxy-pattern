@@ -12,15 +12,14 @@ metadata:
 
 playwright:
   version: 1.52.0
+  rootDir: ./
 
 npm:
   registries:
     - url: https://registry.npmjs.org
   # Set to true if you are using pnpm-lock.yaml or package-lock.json
   usePackageLock: false
-  packages:
-    "@cucumber/cucumber": "latest"
-    
+
 suites:
   - name: "web-desktop"
     browserName: chromium
