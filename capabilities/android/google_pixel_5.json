@@ -1,0 +1,26 @@
+{
+  "capabilities": [
+    {
+      "name": "Google Pixel 5 - Android 14",
+      "caps": {
+        "platformName": "Android",
+        "appium:platformVersion": "14",
+        "appium:deviceName": "Google Pixel 5",
+        "appium:automationName": "UiAutomator2",
+        "appium:app": "",
+        "appium:appPackage": "com.saucelabs.mydemoapp.android",
+        "appium:appActivity": "com.saucelabs.mydemoapp.android.view.activities.SplashActivity",
+        "appium:appWaitActivity": "com.saucelabs.mydemoapp.android.view.activities.SplashActivity,com.saucelabs.mydemoapp.android.view.activities.*",
+        "appium:autoGrantPermissions": true,
+        "appium:newCommandTimeout": 300,
+        "appium:adbExecTimeout": 60000,
+        "appium:uiautomator2ServerInstallTimeout": 120000,
+        "appium:uiautomator2ServerLaunchTimeout": 120000,
+        "appium:appWaitDuration": 60000,
+        "appium:androidInstallTimeout": 120000,
+        "appium:appWaitForLaunch": true,
+        "appium:autoLaunch": true
+      }
+    }
+  ]
+}

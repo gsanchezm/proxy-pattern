@@ -28,6 +28,9 @@ jobs:
       - name: Install deps
         run: pnpm install --frozen-lockfile
 
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install chromium
+
       - name: Validate required secrets
         run: |
           for v in SAUCE_USERNAME SAUCE_ACCESS_KEY SAUCE_REGION BASE_URL; do
@@ -43,12 +46,10 @@ jobs:
           BASE_URL: ${{ secrets.BASE_URL }}
 
       # ✅ Run on Sauce (web) using saucectl (requires .sauce/config.yml in repo)
-      - name: Install saucectl
+      - name: Install saucectl (npm)
         run: |
-          curl -fsSL https://get.sauce.com/install | bash
-          echo "$HOME/.sauce/bin" >> $GITHUB_PATH
+          pnpm add -g @saucelabs/saucectl
           saucectl --version
-      
 
       - name: Run ALL features (web on Sauce) - suite ${{ matrix.viewport }}
         run: |
@@ -96,9 +97,9 @@ jobs:
         platform: [ android, ios ]
         include:
           - platform: android
-            cap_profile: galaxy_s25_ultra
+            cap_profile: google_pixel_5
           - platform: ios
-            cap_profile: iphone_16_pro
+            cap_profile: iphone_13_pro
 
     steps:
       - uses: actions/checkout@v4

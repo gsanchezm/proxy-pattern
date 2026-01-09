@@ -1,0 +1,23 @@
+{
+  "capabilities": [
+    {
+      "name": "iPhone 13 Pro - iOS 18.7",
+      "caps": {
+        "platformName": "iOS",
+        "appium:automationName": "XCUITest",
+        "appium:deviceName": "iPhone 13 Pro",
+        "appium:platformVersion": "18",
+        "appium:app": "",
+        "appium:connectHardwareKeyboard": true,
+        "appium:useNewWDA": true,
+        "appium:wdaLaunchTimeout": 180000,
+        "appium:wdaConnectionTimeout": 180000,
+        "appium:launchTimeout": 180000,
+        "appium:newCommandTimeout": 12000,
+        "appium:shouldUseSingletonTestManager": false,
+        "appium:appWaitForLaunch": true,
+        "appium:autoLaunch": true
+      }
+    }
+  ]
+}
