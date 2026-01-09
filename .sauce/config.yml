@@ -1,46 +1,35 @@
 apiVersion: v1alpha
-kind: playwright
+kind: custom
 sauce:
   region: us-west-1 # Ensure this is a literal string (us-west-1 or eu-central-1)
   concurrency: 10
   # Fixed metadata syntax:
   metadata:
-    name: "Cucumber Playwright Sauce Run"
     build: "build-${GITHUB_RUN_NUMBER}"
 
-playwright:
-  # Fixed: Using a version supported by Sauce Labs as per your error log
-  version: "1.49.1" 
-  # This installs your pnpm/npm deps in the cloud instead of uploading them
-  installDependencies: true
-
-# Config for artifact handling
-artifacts:
-  download:
-    when: always
-    match:
-      - "*"
-    directory: ./artifacts
+# This defines the environment
+custom:
+  # Use a Playwright-ready image that includes browsers
+  image: mcr.microsoft.com/playwright:v1.49.1-noble
 
 suites:
   - name: web-desktop
-    testMatch: ["**/*.feature"] 
-    platformName: "Windows 11"
-    params:
-      browserName: "chromium"
+    # These are the commands that will run inside the Sauce container
+    run:
+      - pnpm install --frozen-lockfile
+      - npx cucumber-js --config cucumber.config.mjs
     env:
       PLATFORM: web
       DRIVER: playwright
       VIEWPORT: desktop
       BASE_URL: ${BASE_URL}
       HEADLESS: "true"
-      LOG_LEVEL: info
 
-  - name: web-responsive
-    testMatch: ["**/*.feature"]
-    platformName: "Windows 11"
-    params:
-      browserName: "chromium"
+  - name: web-desktop
+    # These are the commands that will run inside the Sauce container
+    run:
+      - pnpm install --frozen-lockfile
+      - npx cucumber-js --config cucumber.config.mjs
     env:
       PLATFORM: web
       DRIVER: playwright
