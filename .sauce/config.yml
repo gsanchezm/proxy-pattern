@@ -1,35 +1,35 @@
 apiVersion: v1alpha
-kind: container
+kind: saucectl
+
 sauce:
-  region: us-west-1 # Ensure this is a literal string (us-west-1 or eu-central-1)
+  region: us-west-1
   concurrency: 10
-  # Fixed metadata syntax:
   metadata:
     build: "build-${GITHUB_RUN_NUMBER}"
 
-# This defines the environment
-container:
-  # Use a Playwright-ready image that includes browsers
-  image: mcr.microsoft.com/playwright:v1.49.1-noble
-
 suites:
   - name: web-desktop
-    # These are the commands that will run inside the Sauce container
+    framework: playwright
+
     run:
       - pnpm install --frozen-lockfile
       - npx cucumber-js --config cucumber.config.mjs
+
     env:
       PLATFORM: web
       DRIVER: playwright
       VIEWPORT: desktop
       BASE_URL: ${BASE_URL}
       HEADLESS: "true"
+      LOG_LEVEL: info
 
-  - name: web-desktop
-    # These are the commands that will run inside the Sauce container
+  - name: web-responsive
+    framework: playwright
+
     run:
       - pnpm install --frozen-lockfile
       - npx cucumber-js --config cucumber.config.mjs
+
     env:
       PLATFORM: web
       DRIVER: playwright
