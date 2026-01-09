@@ -1,16 +1,17 @@
 apiVersion: v1alpha
 kind: playwright
 sauce:
-  region: us-west-1 # Must be hardcoded: us-west-1 or eu-central-1
+  region: us-west-1 # Ensure this is a literal string (us-west-1 or eu-central-1)
   concurrency: 10
-  metadata:
-    name: "Cucumber Playwright Sauce Run"
-    build: "build-${GITHUB_RUN_NUMBER}"
+  # Fixed metadata syntax:
+  name: "Cucumber Playwright Sauce Run" 
+  build: "build-${GITHUB_RUN_NUMBER}"
 
 playwright:
-  version: 1.40.0 # Match your package.json version
+  # Fixed: Using a version supported by Sauce Labs as per your error log
+  version: "1.49.1" 
 
-# This handles artifact downloading automatically
+# Config for artifact handling
 artifacts:
   download:
     when: always
@@ -20,7 +21,7 @@ artifacts:
 
 suites:
   - name: web-desktop
-    testMatch: ["**/*.feature"] # Targets your Cucumber feature files
+    testMatch: ["**/*.feature"] 
     platformName: "Windows 11"
     params:
       browserName: "chromium"
