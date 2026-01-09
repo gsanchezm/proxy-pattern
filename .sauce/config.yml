@@ -14,7 +14,8 @@ playwright:
   version: 1.52.0
 
 npm:
-  registries: https://registry.npmjs.org
+  registries:
+    - url: https://registry.npmjs.org
   # Set to true if you are using pnpm-lock.yaml or package-lock.json
   usePackageLock: false
 
