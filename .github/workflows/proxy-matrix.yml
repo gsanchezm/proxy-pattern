@@ -45,10 +45,10 @@ jobs:
       # ✅ Run on Sauce (web) using saucectl (requires .sauce/config.yml in repo)
       - name: Install saucectl
         run: |
-          curl -fsSL https://github.com/saucelabs/saucectl/releases/latest/download/saucectl_linux_amd64.tar.gz \
-            | tar -xz
-          sudo mv saucectl /usr/local/bin/saucectl
+          curl -fsSL https://get.sauce.com/install | bash
+          echo "$HOME/.sauce/bin" >> $GITHUB_PATH
           saucectl --version
+      
 
       - name: Run ALL features (web on Sauce) - suite ${{ matrix.viewport }}
         run: |
