@@ -11,6 +11,9 @@ suites:
   - name: web-desktop
     framework: playwright
 
+    browser: chromium
+    platformName: Windows 11
+
     run:
       - pnpm install --frozen-lockfile
       - npx cucumber-js --config cucumber.config.mjs
@@ -25,6 +28,9 @@ suites:
 
   - name: web-responsive
     framework: playwright
+
+    browser: chromium
+    platformName: Windows 11
 
     run:
       - pnpm install --frozen-lockfile
