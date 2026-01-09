@@ -1,21 +1,16 @@
-apiVersion: saucectl.io/v1alpha
-kind: saucectl
+apiVersion: v1alpha
+kind: playwright-cucumberjs
 
 metadata:
-  name: proxy-pattern-web
+  build: "$BUILD_ID"
+
+playwright:
+  version: 1.52.0
 
 suites:
-  # ============================
-  # WEB – DESKTOP
-  # ============================
   - name: web-desktop
-    framework: playwright
-
-    platformName: Windows 11
     browserName: chromium
-
-    playwright:
-      version: 1.42.0
+    platformName: Windows 11
 
     env:
       PLATFORM: web
@@ -26,17 +21,9 @@ suites:
     command: >
       pnpm test
 
-  # ============================
-  # WEB – RESPONSIVE
-  # ============================
   - name: web-responsive
-    framework: playwright
-
-    platformName: Windows 11
     browserName: chromium
-
-    playwright:
-      version: 1.42.0
+    platformName: Windows 11
 
     env:
       PLATFORM: web
