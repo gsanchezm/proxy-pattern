@@ -45,6 +45,7 @@ jobs:
   web:
     name: Web (Playwright) - ${{ matrix.viewport }}
     runs-on: ubuntu-latest
+    environment: PROXY_ENV
     strategy:
       fail-fast: false
       matrix:
@@ -96,6 +97,7 @@ jobs:
     name: Mobile (Appium on Sauce) - ${{ matrix.platform }}
     needs: upload-apps
     runs-on: ubuntu-latest
+    environment: PROXY_ENV
     strategy:
       fail-fast: false
       matrix:
