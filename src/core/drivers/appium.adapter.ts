@@ -12,6 +12,34 @@ type WdioLogLevel = 'trace' | 'debug' | 'info' | 'warn' | 'error' | 'silent';
 export class AppiumAdapter {
   private static driver: WebdriverIO.Browser;
 
+  private static isSauce(): boolean {
+    return (process.env.SAUCE ?? 'false').toLowerCase() === 'true';
+  }
+
+  private static sauceRegionHost(): string {
+    const region = process.env.SAUCE_REGION ?? 'us-west-1';
+    return `ondemand.${region}.saucelabs.com`;
+  }
+
+  private static resolveSauceAppRef(): string {
+    const isAndroid = env.platform === 'android';
+    const ref =
+      (isAndroid ? process.env.SAUCE_ANDROID_APP : process.env.SAUCE_IOS_APP) ??
+      process.env.SAUCE_MOBILE_APP;
+
+    if (!ref) {
+      throw new Error(
+        `Sauce app not configured. Set ${isAndroid ? 'SAUCE_ANDROID_APP' : 'SAUCE_IOS_APP'} (recommended) or SAUCE_MOBILE_APP`
+      );
+    }
+
+    // Accept either:
+    // - storage:filename=xxx.apk
+    // - storage:xxxxx (older style)
+    // - or full URL
+    return ref;
+  }
+
   /**
    * Resolve app path using:
    * 1) ANDROID_APP_PATH / IOS_APP_PATH (preferred)
@@ -20,6 +48,12 @@ export class AppiumAdapter {
    * Supports repo-relative paths (resolved using process.cwd()).
    */
   private static resolveAppPath(): string {
+    // ✅ Sauce mode: do NOT use local file paths
+    if (this.isSauce()) {
+      return this.resolveSauceAppRef();
+    }
+
+    // Local mode: your current behavior
     const isAndroid = env.platform === 'android';
 
     const candidate =
@@ -132,6 +166,15 @@ export class AppiumAdapter {
     const profile = CapabilityProfileLoader.load(env.platform, profileName);
     let caps = CapabilityProfileLoader.selectCaps(profile, capName);
 
+    // ✅ Sauce options (metadata) when running in Sauce
+    if (this.isSauce()) {
+      caps['sauce:options'] = {
+        name: process.env.SAUCE_TEST_NAME ?? `proxy-pattern-${env.platform}`,
+        build: process.env.SAUCE_BUILD ?? `proxy-pattern`,
+        tags: ['proxy', 'cucumber', env.platform]
+      };
+    }
+
     // Inject/resolve app path
     const appPath = this.resolveAppPath();
     if (!caps['appium:app'] || String(caps['appium:app']).trim() === '') {
@@ -151,20 +194,42 @@ export class AppiumAdapter {
   }
 
   static async init() {
-    const hostname = process.env.APPIUM_HOST ?? 'localhost';
-    const port = Number(process.env.APPIUM_PORT ?? '4723');
-    const hubPath = process.env.APPIUM_PATH ?? '/';
-
+    const isSauce = this.isSauce();
+  
+    // Local Appium
+    const localHost = process.env.APPIUM_HOST ?? 'localhost';
+    const localPort = Number(process.env.APPIUM_PORT ?? '4723');
+    const localPath = process.env.APPIUM_PATH ?? '/';
+  
+    // Sauce Appium
+    const sauceHost = this.sauceRegionHost();
+    const saucePath = '/wd/hub'; // Sauce expects /wd/hub
+    const sauceUser = process.env.SAUCE_USERNAME;
+    const sauceKey = process.env.SAUCE_ACCESS_KEY;
+  
+    if (isSauce && (!sauceUser || !sauceKey)) {
+      throw new Error('SAUCE=true requires SAUCE_USERNAME and SAUCE_ACCESS_KEY');
+    }
+  
     const capabilities = this.buildCapabilities();
-
+  
     this.driver = await remote({
-      hostname,
-      port,
-      path: hubPath,
+      protocol: isSauce ? 'https' : 'http',
+      hostname: isSauce ? sauceHost : localHost,
+      port: isSauce ? 443 : localPort,
+      path: isSauce ? saucePath : localPath,
+  
+      user: isSauce ? sauceUser : undefined,
+      key: isSauce ? sauceKey : undefined,
+  
       logLevel: this.resolveWdioLogLevel(),
-      capabilities
+      capabilities,
+  
+      // ✅ helpful for Sauce timeouts / contention
+      connectionRetryTimeout: Number(process.env.WDIO_CONN_RETRY_TIMEOUT ?? 180_000),
+      connectionRetryCount: Number(process.env.WDIO_CONN_RETRY_COUNT ?? 3)
     });
-  }
+  }  
 
   static getDriver(): WebdriverIO.Browser {
     if (!this.driver) throw new Error('Appium driver not initialized.');
