@@ -1,45 +1,46 @@
 apiVersion: v1alpha
-kind: saucectl
+kind: sauce
 
-sauce:
-  region: us-west-1
-  concurrency: 10
-  metadata:
-    build: "build-${GITHUB_RUN_NUMBER}"
+metadata:
+  name: proxy-pattern-web
 
 suites:
+  # ============================
+  # WEB – DESKTOP
+  # ============================
   - name: web-desktop
     framework: playwright
-
-    browser: chromium
     platformName: Windows 11
+    browserName: chromium
 
-    run:
-      - pnpm install --frozen-lockfile
-      - npx cucumber-js --config cucumber.config.mjs
+    playwright:
+      version: 1.42.0
 
     env:
       PLATFORM: web
       DRIVER: playwright
       VIEWPORT: desktop
       BASE_URL: ${BASE_URL}
-      HEADLESS: "true"
-      LOG_LEVEL: info
 
+    command: >
+      pnpm test
+
+  # ============================
+  # WEB – RESPONSIVE
+  # ============================
   - name: web-responsive
     framework: playwright
-
-    browser: chromium
     platformName: Windows 11
+    browserName: chromium
 
-    run:
-      - pnpm install --frozen-lockfile
-      - npx cucumber-js --config cucumber.config.mjs
+    playwright:
+      version: 1.42.0
 
     env:
       PLATFORM: web
       DRIVER: playwright
       VIEWPORT: responsive
       BASE_URL: ${BASE_URL}
-      HEADLESS: "true"
-      LOG_LEVEL: info
+
+    command: >
+      pnpm test
