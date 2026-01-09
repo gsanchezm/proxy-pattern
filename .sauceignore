@@ -1,0 +1,7 @@
+node_modules/
+.git/
+artifacts/
+logs/
+metrics/
+*.png
+*.mp4

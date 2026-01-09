@@ -4,8 +4,9 @@ sauce:
   region: us-west-1 # Ensure this is a literal string (us-west-1 or eu-central-1)
   concurrency: 10
   # Fixed metadata syntax:
-  name: "Cucumber Playwright Sauce Run" 
-  build: "build-${GITHUB_RUN_NUMBER}"
+  metadata:
+    name: "Cucumber Playwright Sauce Run"
+    build: "build-${GITHUB_RUN_NUMBER}"
 
 playwright:
   # Fixed: Using a version supported by Sauce Labs as per your error log
