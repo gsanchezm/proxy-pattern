@@ -1,5 +1,5 @@
-apiVersion: v1alpha
-kind: sauce
+apiVersion: saucectl.io/v1alpha
+kind: saucectl
 
 metadata:
   name: proxy-pattern-web
@@ -10,6 +10,7 @@ suites:
   # ============================
   - name: web-desktop
     framework: playwright
+
     platformName: Windows 11
     browserName: chromium
 
@@ -30,6 +31,7 @@ suites:
   # ============================
   - name: web-responsive
     framework: playwright
+
     platformName: Windows 11
     browserName: chromium
 
