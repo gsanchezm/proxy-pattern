@@ -1,21 +1,29 @@
 apiVersion: v1alpha
 kind: playwright
-
 sauce:
-  region: ${SAUCE_REGION}
+  region: us-west-1 # Must be hardcoded: us-west-1 or eu-central-1
+  concurrency: 10
+  metadata:
+    name: "Cucumber Playwright Sauce Run"
+    build: "build-${GITHUB_RUN_NUMBER}"
 
-defaults:
-  timeout: 30m
-  artifacts:
-    download:
-      when: always
-      match:
-        - ".*"
+playwright:
+  version: 1.40.0 # Match your package.json version
+
+# This handles artifact downloading automatically
+artifacts:
+  download:
+    when: always
+    match:
+      - "*"
+    directory: ./artifacts
 
 suites:
   - name: web-desktop
-    image: cypress/browsers:node-20.11.0-chrome-120-ff-121
-    workingDirectory: /work
+    testMatch: ["**/*.feature"] # Targets your Cucumber feature files
+    platformName: "Windows 11"
+    params:
+      browserName: "chromium"
     env:
       PLATFORM: web
       DRIVER: playwright
@@ -23,14 +31,12 @@ suites:
       BASE_URL: ${BASE_URL}
       HEADLESS: "true"
       LOG_LEVEL: info
-      LOG_FILE: ${LOG_FILE}
-    run:
-      - pnpm install --frozen-lockfile
-      - pnpm test:web:desktop
 
   - name: web-responsive
-    image: cypress/browsers:node-20.11.0-chrome-120-ff-121
-    workingDirectory: /work
+    testMatch: ["**/*.feature"]
+    platformName: "Windows 11"
+    params:
+      browserName: "chromium"
     env:
       PLATFORM: web
       DRIVER: playwright
@@ -38,7 +44,3 @@ suites:
       BASE_URL: ${BASE_URL}
       HEADLESS: "true"
       LOG_LEVEL: info
-      LOG_FILE: ${LOG_FILE}
-    run:
-      - pnpm install --frozen-lockfile
-      - pnpm test:web:responsive
