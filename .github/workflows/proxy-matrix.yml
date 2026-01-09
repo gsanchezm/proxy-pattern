@@ -71,7 +71,7 @@ jobs:
           mkdir -p logs metrics
           LOG_FILE="logs/all-web-${{ matrix.viewport }}.jsonl" pnpm test:web:${{ matrix.viewport }}
         env:
-          BASE_URL: ${{ secrets.BASE_URL }}
+          BASE_URL: ${{ secrets.BASE_URL || 'https://www.saucedemo.com' }}
           HEADLESS: "true"
           LOG_LEVEL: "info"
 
