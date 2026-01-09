@@ -55,7 +55,7 @@ jobs:
         env:
           # Pass your custom environment variables here so saucectl
           # can inject them into your tests/.sauce/config.yml
-          GITHUB_TOKEN: $ {{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           LOG_FILE: "logs/all-web-${{ matrix.viewport }}.jsonl"
           PLATFORM: web
           DRIVER: playwright
