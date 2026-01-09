@@ -1,6 +1,12 @@
 apiVersion: v1alpha
 kind: playwright-cucumberjs
 
+sauce:
+  region: us-west-1
+  concurrency: 1
+  metadata:
+    build: "$BUILD_ID"
+
 metadata:
   build: "$BUILD_ID"
 
