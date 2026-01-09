@@ -18,7 +18,9 @@ npm:
     - url: https://registry.npmjs.org
   # Set to true if you are using pnpm-lock.yaml or package-lock.json
   usePackageLock: false
-
+  packages:
+    "@cucumber/cucumber": "latest"
+    
 suites:
   - name: "web-desktop"
     browserName: chromium
