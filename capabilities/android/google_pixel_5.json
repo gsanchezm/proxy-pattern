@@ -11,6 +11,9 @@
         "appium:appPackage": "com.saucelabs.mydemoapp.android",
         "appium:appActivity": "com.saucelabs.mydemoapp.android.view.activities.SplashActivity",
         "appium:appWaitActivity": "com.saucelabs.mydemoapp.android.view.activities.SplashActivity,com.saucelabs.mydemoapp.android.view.activities.*",
+        "sauce:options": {
+          "appiumVersion": "2.0.0" 
+        },
         "appium:autoGrantPermissions": true,
         "appium:newCommandTimeout": 300,
         "appium:adbExecTimeout": 60000,
