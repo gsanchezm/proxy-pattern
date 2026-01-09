@@ -11,6 +11,8 @@ sauce:
 playwright:
   # Fixed: Using a version supported by Sauce Labs as per your error log
   version: "1.49.1" 
+  # This installs your pnpm/npm deps in the cloud instead of uploading them
+  installDependencies: true
 
 # Config for artifact handling
 artifacts:
