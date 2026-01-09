@@ -45,29 +45,28 @@ jobs:
           SAUCE_REGION: ${{ secrets.SAUCE_REGION }}
           BASE_URL: ${{ secrets.BASE_URL }}
 
-      # ✅ Run on Sauce (web) using saucectl (requires .sauce/config.yml in repo)
-      - name: Install saucectl (npm)
-        run: |
-          pnpm add -g @saucelabs/saucectl
-          saucectl --version
+      # ✅ NEW: Create directories before saucectl runs
+      - name: Create artifact directories
+        run: mkdir -p logs metrics
 
-      - name: Run ALL features (web on Sauce) - suite ${{ matrix.viewport }}
-        run: |
-          mkdir -p logs metrics
-          export LOG_FILE="logs/all-web-${{ matrix.viewport }}.jsonl"
-          export PLATFORM=web
-          export DRIVER=playwright
-          export VIEWPORT=${{ matrix.viewport }}
-          export BASE_URL="${{ secrets.BASE_URL }}"
-          export HEADLESS=true
-          export LOG_LEVEL=info
-
-          # saucectl will pick suite by name from .sauce/config.yml
-          saucectl run --select-suite "web-${{ matrix.viewport }}"
+      # ✅ NEW: Official Sauce Labs Action
+      - name: Run ALL features (web on Sauce)
+        uses: saucelabs/saucectl-run-action@v4
         env:
-          SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
-          SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
-          SAUCE_REGION: ${{ secrets.SAUCE_REGION }}
+          # Pass your custom environment variables here so saucectl
+          # can inject them into your tests/.sauce/config.yml
+          LOG_FILE: "logs/all-web-${{ matrix.viewport }}.jsonl"
+          PLATFORM: web
+          DRIVER: playwright
+          VIEWPORT: ${{ matrix.viewport }}
+          BASE_URL: ${{ secrets.BASE_URL }}
+          HEADLESS: true
+          LOG_LEVEL: info
+        with:
+          sauce-username: ${{ secrets.SAUCE_USERNAME }}
+          sauce-access-key: ${{ secrets.SAUCE_ACCESS_KEY }}
+          region: ${{ secrets.SAUCE_REGION }}
+          select-suite: "web-${{ matrix.viewport }}"
 
       - name: Generate metrics
         if: always()
@@ -87,6 +86,7 @@ jobs:
             metrics/
             .sauce/
 
+  # Mobile job remains unchanged as it uses Appium/WDIO directly, not saucectl
   mobile:
     name: Mobile (Appium on Sauce) - ${{ matrix.platform }}
     runs-on: ubuntu-latest
