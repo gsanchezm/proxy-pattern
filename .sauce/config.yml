@@ -1,5 +1,5 @@
 apiVersion: v1alpha
-kind: imagerunner
+kind: container
 sauce:
   region: us-west-1 # Ensure this is a literal string (us-west-1 or eu-central-1)
   concurrency: 10
@@ -8,7 +8,7 @@ sauce:
     build: "build-${GITHUB_RUN_NUMBER}"
 
 # This defines the environment
-imagerunner:
+container:
   # Use a Playwright-ready image that includes browsers
   image: mcr.microsoft.com/playwright:v1.49.1-noble
 
