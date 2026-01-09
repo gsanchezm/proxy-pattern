@@ -1,0 +1,24 @@
+{
+    "capabilities": [
+      {
+        "name": "Galaxy S24 Ultra - Android 15",
+        "caps": {
+          "platformName": "Android",
+          "appium:platformVersion": "15",
+          "appium:deviceName": "Galaxy S24 Ultra",
+          "appium:automationName": "UiAutomator2",
+          "appium:app": "",
+          "appium:appPackage": "com.saucelabs.mydemoapp.android",
+          "appium:appWaitActivity": "com.saucelabs.mydemoapp.android.view.activities.SplashActivity,com.saucelabs.mydemoapp.android.view.activities.*",
+          "appium:autoGrantPermissions": true,
+          "appium:udid": "emulator-5554",
+          "appium:launchTimeout": 60000,
+          "appium:newCommandTimeout": 12000,
+          "appium:appWaitDuration": 60000,
+          "appium:adbExecTimeout": 60000,
+          "appium:appWaitForLaunch": true,
+          "appium:autoLaunch": true
+        }
+      }
+    ]
+  }

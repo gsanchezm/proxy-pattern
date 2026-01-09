@@ -1,0 +1,55 @@
+name: Proxy Architecture Matrix
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: web
+            viewport: desktop
+            driver: playwright
+          - platform: web
+            viewport: responsive
+            driver: playwright
+          - platform: android
+            driver: appium
+          - platform: ios
+            driver: appium
+
+    env:
+      PLATFORM: ${{ matrix.platform }}
+      VIEWPORT: ${{ matrix.viewport }}
+      DRIVER: ${{ matrix.driver }}
+      BASE_URL: https://www.saucedemo.com
+      LOG_LEVEL: info
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - run: npm ci
+
+      - name: Start Appium
+        if: matrix.driver == 'appium'
+        run: |
+          npm install -g appium
+          appium &
+
+      - name: Run tests
+        run: npm test
+
+      - name: Upload telemetry logs
+        uses: actions/upload-artifact@v4
+        with:
+          name: telemetry-${{ matrix.platform }}-${{ matrix.viewport || 'na' }}
+          path: logs/*.jsonl

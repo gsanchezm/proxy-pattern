@@ -1,0 +1,13 @@
+{
+  "cartItemList": {
+    "web": "[data-test='cart-item']",
+    "mobile": { "android": "", "ios": "" }
+  },
+  "cartItemNameList": {
+    "web": "[data-test='inventory-item-name']",
+    "mobile": {
+      "android": "id=com.saucelabs.mydemoapp.android:id/titleTV",
+      "ios": "-ios class chain:**/XCUIElementTypeOther[`name == \"Cart-screen\"`]/**/XCUIElementTypeStaticText[`name BEGINSWITH \"Sauce Labs\"`]"
+    }
+  }
+}

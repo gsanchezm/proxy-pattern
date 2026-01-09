@@ -1,0 +1,23 @@
+{
+  "logOutLabel": {
+    "web": "",
+    "mobile": {
+      "android": "id=com.saucelabs.mydemoapp.android:id/alertTitle",
+      "ios": ""
+    }
+  },
+  "cancelButton": {
+    "web": "",
+    "mobile": {
+      "android": "id=android:id/button2",
+      "ios": ""
+    }
+  },
+  "logOutButton": {
+    "web": "",
+    "mobile": {
+      "android": "id=android:id/button1",
+      "ios": "-ios predicate string:name == 'LogOut-menu-item'"
+    }
+  }
+}

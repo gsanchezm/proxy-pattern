@@ -1,0 +1,15 @@
+{
+  "burgerMenuButton": {
+    "web": "#react-burger-menu-btn",
+    "mobile": { 
+      "android": "accessibility id:View menu",
+      "ios": "-ios predicate string:type == 'XCUIElementTypeButton' AND name == 'More-tab-item'" }
+  },
+  "menuItemList": {
+    "web": ".bm-item.menu-item",
+    "mobile": {
+      "android": "id:com.saucelabs.mydemoapp.android:id/itemTV",
+      "ios": "-ios predicate string:type == 'XCUIElementTypeOther'"
+    }
+  }
+}

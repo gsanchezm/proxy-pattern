@@ -1,0 +1,44 @@
+{
+  "userNameInput": {
+    "web": "[data-test='username']",
+    "mobile": {
+      "android": "id=com.saucelabs.mydemoapp.android:id/nameET",
+      "ios": "-ios predicate string:type == 'XCUIElementTypeTextField'"
+    }
+  },
+  "passwordInput": {
+    "web": "[data-test='password']",
+    "mobile": {
+      "android": "id=com.saucelabs.mydemoapp.android:id/passwordET",
+      "ios": "-ios predicate string:type == 'XCUIElementTypeSecureTextField'"
+    }
+  },
+  "loginButton": {
+    "web": "[data-test='login-button']",
+    "mobile": {
+      "android": "~Tap to login with given credentials",
+      "ios": "~Login"
+    }
+  },
+  "errorLabel": {
+    "web": "[data-test='error']",
+    "mobile": {
+      "android": "id=com.saucelabs.mydemoapp.android:id/nameErrorTV",
+      "ios": "-ios class chain:**/XCUIElementTypeStaticText[`name CONTAINS 'required' OR label CONTAINS 'required'`]"
+    }
+  },
+  "lockedUserErrorLabel": {
+    "web": "",
+    "mobile": {
+      "android": "id=com.saucelabs.mydemoapp.android:id/passwordErrorTV",
+      "ios": ""
+    }
+  },
+  "okButton": {
+    "web": "",
+    "mobile": {
+      "android": "",
+      "ios": "~OK"
+    }
+  }
+}

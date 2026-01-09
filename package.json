@@ -1,0 +1,43 @@
+{
+  "name": "proxy-automation",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@9.15.0",
+  "scripts": {
+    "test": "tsx --require tsconfig-paths/register ./node_modules/@cucumber/cucumber/bin/cucumber-js --config cucumber.config.mjs",
+    "test:web:desktop": "PLATFORM=web VIEWPORT=desktop DRIVER=playwright pnpm test",
+    "test:web:responsive": "PLATFORM=web VIEWPORT=responsive DRIVER=playwright pnpm test",
+    "test:android": "PLATFORM=android DRIVER=appium pnpm test",
+    "test:ios": "PLATFORM=ios DRIVER=appium pnpm test",
+    "test:parallel": "concurrently --success=all --kill-others-on-fail -n web-desktop,web-responsive,ios,android -c auto \"LOG_FILE=logs/web-desktop.jsonl PLATFORM=web VIEWPORT=desktop DRIVER=playwright pnpm test\" \"LOG_FILE=logs/web-responsive.jsonl PLATFORM=web VIEWPORT=responsive DRIVER=playwright pnpm test\" \"LOG_FILE=logs/ios.jsonl PLATFORM=ios DRIVER=appium CAP_PROFILE=iphone_16_pro pnpm test\" \"LOG_FILE=logs/android.jsonl PLATFORM=android DRIVER=appium CAP_PROFILE=galaxy_s25_ultra pnpm test\"",
+    "logs:pretty": "pino-pretty --translateTime --ignore pid,hostname",
+
+    "test:inventory:web:desktop": "PLATFORM=web VIEWPORT=desktop DRIVER=playwright pnpm test -- src/features/inventory/inventory.feature",
+    "test:inventory:web:responsive": "PLATFORM=web VIEWPORT=responsive DRIVER=playwright pnpm test -- src/features/inventory/inventory.feature",
+    "test:inventory:ios": "PLATFORM=ios DRIVER=appium CAP_PROFILE=iphone_16_pro pnpm test -- src/features/inventory/inventory.feature",
+    "test:inventory:android": "PLATFORM=android DRIVER=appium CAP_PROFILE=galaxy_s25_ultra pnpm test -- src/features/inventory/inventory.feature",
+    "test:inventory:parallel": "concurrently --success=all --kill-others-on-fail -n web-desktop,web-responsive,ios,android -c auto \"LOG_FILE=logs/inventory-web-desktop.jsonl pnpm test:inventory:web:desktop\" \"LOG_FILE=logs/inventory-web-responsive.jsonl pnpm test:inventory:web:responsive\" \"LOG_FILE=logs/inventory-ios.jsonl pnpm test:inventory:ios\" \"LOG_FILE=logs/inventory-android.jsonl pnpm test:inventory:android\"",
+    
+    "metrics:collect": "ts-node scripts/collect-metrics.ts",
+    "metrics:exec": "ts-node scripts/execution-metrics.ts",
+    "metrics:flaky": "ts-node scripts/flakiness-metrics.ts",
+    "metrics:failures": "ts-node scripts/failure-distribution.ts"
+  },
+  "dependencies": {
+    "@cucumber/cucumber": "^12.0.0",
+    "dotenv": "^17.0.0",
+    "pino": "^10.0.0",
+    "pino-pretty": "^13.0.0",
+    "playwright": "^1.43.0",
+    "tsconfig-paths": "^4.2.0",
+    "webdriverio": "^9.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^25.0.0",
+    "concurrently": "^9.2.1",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.21.0",
+    "typescript": "^5.4.0"
+  }
+}

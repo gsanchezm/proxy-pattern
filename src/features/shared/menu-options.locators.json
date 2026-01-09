@@ -1,0 +1,23 @@
+{
+    "logoAndNameImage": {
+      "web": ".app_logo",
+      "mobile": {
+        "android": "~App logo and name",
+        "ios": "-ios predicate string:type == 'XCUIElementTypeImage' AND name == 'AppTitle Icons'"
+      }
+    },
+    "cartIcon": {
+      "web": "[data-test='shopping-cart-link']",
+      "mobile": {
+        "android": "id=com.saucelabs.mydemoapp.android:id/cartIV",
+        "ios": "~Cart-tab-item"
+      }
+    },
+    "cartBadge": {
+      "web": ".shopping_cart_badge",
+      "mobile": {
+        "android": "",
+        "ios": ""
+      }
+    }
+}

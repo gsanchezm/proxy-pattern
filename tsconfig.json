@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+      "target": "ES2022",
+      "module": "ESNext",
+      "moduleResolution": "Node",
+      "strict": true,
+  
+      "baseUrl": "./src",
+      "paths": {
+        "@features/*": ["features/*"],
+        "@core/*": ["core/*"],
+        "@support/*": ["support/*"]
+      },
+  
+      "types": ["node"],
+      "skipLibCheck": true
+    },
+    "include": ["src", "scripts"]
+  }  

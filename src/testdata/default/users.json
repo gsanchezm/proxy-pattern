@@ -1,0 +1,38 @@
+{
+    "standard_user": [
+      {
+        "username": "standard_user",
+        "password": "secret_sauce",
+        "firstName": "SauceLab First Name",
+        "lastName": "SauceLab Last Name",
+        "postalCode": "23245"
+      }
+    ],
+    "locked_out_user": [
+      {
+        "username": "locked_out_user",
+        "password": "secret_sauce",
+        "firstName": "",
+        "lastName": "",
+        "postalCode": ""
+      }
+    ],
+    "bob": [
+      {
+        "username": "bob@example.com",
+        "password": "10203040",
+        "firstName": "SauceLab First Name",
+        "lastName": "SauceLab Last Name",
+        "postalCode": "23245"
+      }
+    ],
+    "alice": [
+      {
+        "username": "alice@example.com",
+        "password": "10203040",
+        "firstName": "",
+        "lastName": "",
+        "postalCode": ""
+      }
+    ]
+  }

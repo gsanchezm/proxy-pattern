@@ -1,0 +1,58 @@
+{
+  "map": {
+    "backpack": {
+      "webTitle": "Sauce Labs Backpack",
+      "mobileTitles": [
+        "Sauce Labs Backpack",
+        "Sauce Labs Backpack - Yellow",
+        "Sauce Labs Backpack - Green",
+        "Sauce Labs Backpack - Black",
+        "Sauce Labs Backpack - Red",
+        "Sauce Labs Backpack - Orange",
+        "Sauce Labs Backpack - Violet"
+      ]
+    },
+    "bike_light": {
+      "webTitle": "Sauce Labs Bike Light",
+      "mobileTitles": ["Sauce Labs Bike Light"]
+    },
+    "bolt_tshirt": {
+      "webTitle": "Sauce Labs Bolt T-Shirt",
+      "mobileTitles": [
+        "Sauce Labs Bolt T-Shirt",
+        "Sauce Labs Bolt T-Shirt - Black",
+        "Sauce Labs Bolt T-Shirt - Yellow",
+        "Sauce Labs Bolt T-Shirt - Green",
+        "Sauce Labs Bolt T-Shirt - Red",
+        "Sauce Labs Bolt T-Shirt - Blue"
+      ]
+    },
+    "fleece_jacket": {
+      "webTitle": "Sauce Labs Fleece Jacket",
+      "mobileTitles": [
+        "Sauce Labs Fleece Jacket",
+        "Sauce Labs Fleece Jacket - Blue",
+        "Sauce Labs Fleece Jacket - Green",
+        "Sauce Labs Fleece Jacket - Brown",
+        "Sauce Labs Fleece Jacket - Red",
+        "Sauce Labs Fleece Jacket - Grey",
+        "Sauce Labs Fleece Jacket - Pink"
+      ]
+    },
+    "onesie": {
+      "webTitle": "Sauce Labs Onesie",
+      "mobileTitles": ["Sauce Labs Onesie"]
+    },
+    "allthethings_red": {
+      "webTitle": "Test.allTheThings() T-Shirt (Red)",
+      "mobileTitles": [
+        "Test.allTheThings() T-Shirt - Orange",
+        "Test.allTheThings() T-Shirt - Pink",
+        "Test.allTheThings() T-Shirt - Purple",
+        "Test.allTheThings() T-Shirt - Red",
+        "Test.allTheThings() T-Shirt - Turquoise",
+        "Test.allTheThings() T-Shirt - Yellow"
+      ]
+    }
+  }
+}

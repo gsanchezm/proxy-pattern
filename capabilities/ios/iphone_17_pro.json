@@ -1,0 +1,24 @@
+{
+  "capabilities": [
+    {
+      "name": "iPhone 17 Pro - iOS 26.2",
+      "caps": {
+        "platformName": "iOS",
+        "appium:automationName": "XCUITest",
+        "appium:deviceName": "iPhone 17 Pro",
+        "appium:platformVersion": "26.2",
+        "appium:udid": "9879124E-2384-46A7-8CF8-87B9C1FB89DF",
+        "appium:app": "",
+        "appium:connectHardwareKeyboard": true,
+        "appium:useNewWDA": true,
+        "appium:wdaLaunchTimeout": 180000,
+        "appium:wdaConnectionTimeout": 180000,
+        "appium:launchTimeout": 180000,
+        "appium:newCommandTimeout": 12000,
+        "appium:shouldUseSingletonTestManager": false,
+        "appium:appWaitForLaunch": true,
+        "appium:autoLaunch": true
+      }
+    }
+  ]
+}

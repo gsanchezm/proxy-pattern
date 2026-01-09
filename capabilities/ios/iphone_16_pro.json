@@ -1,0 +1,24 @@
+{
+  "capabilities": [
+    {
+      "name": "iPhone 16 Pro - iOS 18.2",
+      "caps": {
+        "platformName": "iOS",
+        "appium:automationName": "XCUITest",
+        "appium:deviceName": "iPhone 16 Pro",
+        "appium:platformVersion": "18.2",
+        "appium:udid": "3DB4C74A-F64D-4997-B873-ECE31867AC37",
+        "appium:app": "",
+        "appium:connectHardwareKeyboard": true,
+        "appium:useNewWDA": true,
+        "appium:wdaLaunchTimeout": 180000,
+        "appium:wdaConnectionTimeout": 180000,
+        "appium:launchTimeout": 180000,
+        "appium:newCommandTimeout": 12000,
+        "appium:shouldUseSingletonTestManager": false,
+        "appium:appWaitForLaunch": true,
+        "appium:autoLaunch": true
+      }
+    }
+  ]
+}

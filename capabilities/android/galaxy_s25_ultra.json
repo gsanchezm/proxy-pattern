@@ -1,0 +1,27 @@
+{
+  "capabilities": [
+    {
+      "name": "Galaxy S25 Ultra - Android 16",
+      "caps": {
+        "platformName": "Android",
+        "appium:platformVersion": "16",
+        "appium:deviceName": "Galaxy S25 Ultra",
+        "appium:automationName": "UiAutomator2",
+        "appium:app": "",
+        "appium:appPackage": "com.saucelabs.mydemoapp.android",
+        "appium:appActivity": "com.saucelabs.mydemoapp.android.view.activities.SplashActivity",
+        "appium:appWaitActivity": "com.saucelabs.mydemoapp.android.view.activities.SplashActivity,com.saucelabs.mydemoapp.android.view.activities.*",
+        "appium:autoGrantPermissions": true,
+        "appium:udid": "emulator-5554",
+        "appium:newCommandTimeout": 300,
+        "appium:adbExecTimeout": 60000,
+        "appium:uiautomator2ServerInstallTimeout": 120000,
+        "appium:uiautomator2ServerLaunchTimeout": 120000,
+        "appium:appWaitDuration": 60000,
+        "appium:androidInstallTimeout": 120000,
+        "appium:appWaitForLaunch": true,
+        "appium:autoLaunch": true
+      }
+    }
+  ]
+}

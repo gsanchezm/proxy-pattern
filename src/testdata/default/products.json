@@ -1,0 +1,10 @@
+{
+  "products": [
+    { "key": "backpack", "title": "Sauce Labs Backpack", "price": 29.99 },
+    { "key": "bike_light", "title": "Sauce Labs Bike Light", "price": 9.99 },
+    { "key": "bolt_tshirt", "title": "Sauce Labs Bolt T-Shirt", "price": 15.99 },
+    { "key": "fleece_jacket", "title": "Sauce Labs Fleece Jacket", "price": 49.99 },
+    { "key": "onesie", "title": "Sauce Labs Onesie", "price": 7.99 },
+    { "key": "allthethings_red", "title": "Test.allTheThings() T-Shirt (Red)", "price": 15.99 }
+  ]
+}

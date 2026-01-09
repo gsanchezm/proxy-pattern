@@ -1,0 +1,51 @@
+{
+  "catalogCollection": {
+    "web": "",
+    "mobile": {
+      "android": "xpath=//androidx.recyclerview.widget.RecyclerView",
+      "ios": "-ios class chain:**/XCUIElementTypeOther[`name == \"Catalog-screen\"`]/**/XCUIElementTypeCollectionView"
+    }
+  },
+  "productTitle": {
+    "web": "[data-test='title']",
+    "mobile": {
+      "android": "id=com.saucelabs.mydemoapp.android:id/productTV",
+      "ios": "-ios class chain:**/XCUIElementTypeStaticText[`name == 'title'`]"
+    }
+  },
+  "productCardList": {
+    "web": "[data-test='inventory-item']",
+    "mobile": {
+      "android": "id=com.saucelabs.mydemoapp.android:id/productIV",
+      "ios": "-ios class chain:**/XCUIElementTypeOther[`name == 'Catalog-screen'`]/**/XCUIElementTypeCollectionView/**/XCUIElementTypeCell"
+    }
+  },
+  "productImage": {
+    "web": ".inventory_item_img",
+    "mobile": {
+      "android": "id=com.saucelabs.mydemoapp.android:id/productIV",
+      "ios": ""
+    }
+  },
+  "itemName": {
+    "web": "[data-test='inventory-item-name']",
+    "mobile": {
+      "android": "id=com.saucelabs.mydemoapp.android:id/titleTV",
+      "ios": "-ios class chain:**/XCUIElementTypeOther[`name == \"Catalog-screen\"`]/**/XCUIElementTypeStaticText[`name == \"Product Name\"`]"
+    }
+  },
+  "addToCartButton": {
+    "web": "button[data-test^='add-to-cart']",
+    "mobile": {
+      "android": "id=com.saucelabs.mydemoapp.android:id/cartBt",
+      "ios": "-ios predicate string:name == 'AddToCart'"
+    }
+  },
+  "removeButton": {
+    "web": "button[data-test^='remove']",
+    "mobile": {
+      "android": "android=new UiSelector().textContains(\"Remove\")",
+      "ios": "-ios predicate string:name == 'Remove Item' AND label == 'Remove Item' AND type == 'XCUIElementTypeButton'"
+    }
+  }
+}
