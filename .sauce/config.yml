@@ -8,28 +8,38 @@ playwright:
   version: 1.52.0
 
 suites:
-  - name: web-desktop
+  - name: "web-desktop"
     browserName: chromium
-    platformName: Windows 11
-
+    platformName: "Windows 11"
+    # Use the 'options' block exactly as shown in the official docs
+    options:
+      paths:
+        - "src/features/**/*.feature"
+      require:
+        - "src/support/hooks.ts"
+        - "src/support/world.ts"
+        - "src/features/**/*.ts"
+      # This replaces your 'command' and uses your config file logic
+      format:
+        - "progress"
     env:
       PLATFORM: web
       DRIVER: playwright
       VIEWPORT: desktop
       BASE_URL: ${BASE_URL}
 
-    command: >
-      pnpm test
-
   - name: web-responsive
     browserName: chromium
-    platformName: Windows 11
-
+    platformName: "Windows 11"
+    options:
+      paths:
+        - "src/features/**/*.feature"
+      require:
+        - "src/support/hooks.ts"
+        - "src/support/world.ts"
+        - "src/features/**/*.ts"
     env:
       PLATFORM: web
       DRIVER: playwright
       VIEWPORT: responsive
       BASE_URL: ${BASE_URL}
-
-    command: >
-      pnpm test
