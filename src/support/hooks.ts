@@ -8,13 +8,14 @@ import { env } from '@core/config/env';
 setDefaultTimeout(180 * 1000);
 
 const runId = crypto.randomUUID();
+const architecture = process.env.ARCHITECTURE ?? 'proxy';
 
 BeforeAll(async () => {
   const start = Date.now();
 
   logger.info({
     runId,
-    architecture: 'proxy',
+    architecture,
     platform: process.env.PLATFORM,
     viewport: process.env.VIEWPORT,
     driver: process.env.DRIVER,
@@ -27,7 +28,7 @@ BeforeAll(async () => {
 
   logger.info({
     runId,
-    architecture: 'proxy',
+    architecture,
     platform: process.env.PLATFORM,
     viewport: process.env.VIEWPORT,
     driver: process.env.DRIVER,
@@ -89,7 +90,7 @@ AfterAll(async () => {
 
   logger.info({
     runId,
-    architecture: 'proxy',
+    architecture,
     platform: process.env.PLATFORM,
     viewport: process.env.VIEWPORT,
     driver: process.env.DRIVER,
@@ -103,9 +104,14 @@ AfterStep(function ({ pickleStep, result }) {
       ? (result.duration.seconds ?? 0) * 1000 + (result.duration.nanos ?? 0) / 1_000_000
       : undefined;
 
+  const errorMessage =
+    result?.status === 'FAILED'
+      ? String((result as any).message ?? '').slice(0, 2000)
+      : undefined;
+
   logger.info({
     runId,
-    architecture: 'proxy',
+    architecture,
     platform: this.platform ?? process.env.PLATFORM,
     viewport: this.viewport ?? process.env.VIEWPORT,
     driver: this.driver ?? process.env.DRIVER,

@@ -12,7 +12,7 @@ metadata:
 
 playwright:
   version: 1.52.0
-  rootDir: ./
+rootDir: ./
 
 npm:
   registries:

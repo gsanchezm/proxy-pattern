@@ -5,6 +5,10 @@
   "type": "module",
   "packageManager": "pnpm@9.15.0",
   "scripts": {
+    "exp:local:web": "tsx scripts/run-local-experiment.ts --platform web --viewport desktop --webWorkers 2 --runs 30 --warmup 3",
+    "exp:local:ios": "tsx scripts/run-local-experiment.ts --platform ios --capProfile iphone_16_pro --runs 20 --warmup 2",
+    "exp:local:android": "tsx scripts/run-local-experiment.ts --platform android --capProfile galaxy_s25_ultra --runs 20 --warmup 2",
+    "metrics:csv": "LOG_DIR=logs OUT_DIR=metrics tsx scripts/export-metrics-csv.ts",
     "test": "tsx --require tsconfig-paths/register ./node_modules/@cucumber/cucumber/bin/cucumber-js --config cucumber.config.mjs",
     "test:web:desktop": "PLATFORM=web VIEWPORT=desktop DRIVER=playwright pnpm test",
     "test:web:responsive": "PLATFORM=web VIEWPORT=responsive DRIVER=playwright pnpm test",

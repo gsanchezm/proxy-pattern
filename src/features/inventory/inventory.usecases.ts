@@ -2,8 +2,6 @@ import assert from 'node:assert/strict';
 import { env } from '@core/config/env'
 import { TestDataFactory } from '@core/testdata/TestDataFactory';
 import { InventoryActions } from '@features/inventory/inventory.actions';
-import { MenuOptionActions } from '@features/shared/menu-options.actions';
-import { CartActions } from '@features/cart/cart.actions';
 
 export class InventoryUseCase {
     async ensureOnInventoryPage() {
